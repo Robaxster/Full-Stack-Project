@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static',
+    filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <h2>Smart Logistics</h2>
+
+        <ul>
+
+            <li><a href="/dashboard">📊 Dashboard</a></li>
+
+            <li><a href="/shipments">🚚 Shipments</a></li>
+
+            <li><a href="/warehouse">📦 Warehouse</a></li>
+
+            <li><a href="/analytics">📈 Analytics</a></li>
+            <li><a href="/users">👥 Users</a></li>
+
+            
+
+            <li><a href="/">🏠 Home</a></li>
+
+        </ul>
+<div class="sidebar-profile" onclick="toggleMenu()">
+
+    <div class="profile-avatar sidebar-avatar">
+        {{ session['user'][:2].upper() }}
+    </div>
+
+    <div class="profile-info">
+
+        <h4>{{ session['user'] }}</h4>
+
+        <span class="sidebar-role">
+            {{ session['role'] }}
+        </span>
+
+    </div>
+
+    <div id="profileMenu" class="profile-menu">
+
+        <a href="/profile">👤 Profile</a>
+        <a href="/settings">⚙️ Settings</a>
+        <a href="/upgrade">⭐ Upgrade</a>
+        <a href="/help">❓ Help</a>
+
+        <hr>
+
+        <a href="/logout" class="logout-link">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
+    </div>
+
+    <div class="main-content">
+
+        <div class="dashboard-header">
+
+            <h1>Analytics Dashboard</h1>
+
+            <p>
+                Logistics performance and business insights.
+            </p>
+
+        </div>
+
+        <div class="analytics-grid">
+
+            <div class="analytics-kpi">
+
+                <h2>{{ total_shipments }}</h2>
+
+<p>Total Shipments</p>
+            </div>
+
+            <div class="analytics-kpi">
+
+                <h2>{{ delivered }}</h2>
+
+<p>Delivered</p>
+
+            </div>
+
+            <div class="analytics-kpi">
+
+                <h2>{{ transit }}</h2>
+
+<p>In Transit</p>
+            </div>
+
+            <div class="analytics-kpi">
+
+                <h2>{{ total_warehouses }}</h2>
+
+<p>Total Warehouses</p>
+
+            </div>
+
+        </div>
+
+ <div class="analytics-bottom">
+
+    <!-- Pie Chart -->
+
+    <div class="chart-card">
+
+        <h2>Shipment Status Distribution</h2>
+
+        <div class="chart-container">
+
+            <canvas id="shipmentChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <!-- Performance Metrics -->
+
+   <div class="chart-card">
+
+    <h2>Performance Metrics</h2>
+
+    <div class="metric-box">
+
+        <h3>2.1 Days</h3>
+        <p>Avg Delivery Time</p>
+
+    </div>
+
+    <div class="metric-box">
+
+        <h3>4.8 / 5</h3>
+        <p>Customer Satisfaction</p>
+
+    </div>
+
+    <div class="metric-box">
+
+        <h3>89%</h3>
+        <p>Fleet Utilization</p>
+
+    </div>
+
+    <div class="metric-box">
+
+        <h3>93%</h3>
+        <p>Warehouse Efficiency</p>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- Warehouse Chart BELOW analytics-bottom -->
+
+<div class="chart-card warehouse-chart-card">
+
+    <h2>Warehouse Capacity Usage</h2>
+
+   <div class="warehouse-chart-container">
+
+    <canvas id="warehouseChart"></canvas>
+
+</div>
+
+</div>
+    </div>
+
+</div>
+<script>
+
+const ctx = document.getElementById("shipmentChart");
+
+new Chart(ctx, {
+    type: "pie",
+    data: {
+        labels: [
+            "Delivered",
+            "In Transit",
+            "Pending"
+        ],
+        datasets: [{
+            label: "Shipments",
+            data: [
+                {{ delivered }},
+                {{ transit }},
+                {{ pending }}
+            ]
+        }]
+    }
+});
+const warehouseCtx =
+document.getElementById("warehouseChart");
+
+new Chart(warehouseCtx, {
+
+    type: "bar",
+
+    data: {
+
+        labels: [
+
+            {% for warehouse in warehouses %}
+            "{{ warehouse.warehouse_name }}",
+            {% endfor %}
+
+        ],
+
+       datasets: [{
+
+    label: "Capacity Used (%)",
+
+    data: [
+
+        {% for warehouse in warehouses %}
+        {{ warehouse.capacity_used }},
+        {% endfor %}
+
+    ],
+
+    backgroundColor: "#2563eb",
+
+    borderRadius: 6
+
+}]
+    },
+
+ options: {
+
+    responsive: true,
+
+    maintainAspectRatio: false,
+
+    indexAxis: 'y',
+
+    layout: {
+
+        padding: 20
+
+    },
+
+    plugins: {
+
+        legend: {
+
+            display: false
+
+        }
+
+    },
+
+    scales: {
+
+        x: {
+
+            beginAtZero: true,
+
+            max: 100
+
+        }
+
+    }
+
+}
+});
+</script>
+<script>
+
+function toggleMenu(){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    menu.style.display =
+    menu.style.display === "block"
+    ? "none"
+    : "block";
+}
+
+document.addEventListener("click", function(event){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    const profile =
+    document.querySelector(".sidebar-profile");
+
+    if(
+        profile &&
+        !profile.contains(event.target)
+    ){
+        menu.style.display = "none";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

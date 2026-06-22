@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>My Profile</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="profile-page">
+
+    <!-- HEADER -->
+
+    <div class="profile-header">
+
+        <div class="header-badge">
+            USER PROFILE
+        </div>
+
+        <h1>My Profile</h1>
+
+        <p>
+            Manage your account information
+        </p>
+
+    </div>
+
+    <!-- PROFILE HERO -->
+
+    <div class="profile-hero">
+
+        <div class="profile-avatar-large">
+
+            {{ session['user'][:2].upper() }}
+
+        </div>
+
+        <h2>{{ session['user'] }}</h2>
+
+        <span class="role-badge">
+
+            {{ session['role'] }}
+
+        </span>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="profile-stats">
+
+        <div class="profile-stat">
+
+            <h3>{{ shipments }}</h3>
+
+            <p>Total Shipments</p>
+
+        </div>
+
+        <div class="profile-stat">
+
+            <h3>{{ warehouses }}</h3>
+
+            <p>Total Warehouses</p>
+
+        </div>
+
+        <div class="profile-stat">
+
+            <h3>{{ users }}</h3>
+
+            <p>Total Users</p>
+
+        </div>
+
+    </div>
+
+    <!-- DETAILS -->
+
+    <div class="profile-info-card">
+
+        <div class="info-row">
+
+            <span>Account Status</span>
+
+            <strong>🟢 Active</strong>
+
+        </div>
+
+        <div class="info-row">
+
+            <span>Department</span>
+
+            <strong>Logistics Operations</strong>
+
+        </div>
+
+        <div class="info-row">
+
+            <span>Access Level</span>
+
+            <strong>{{ session['role'] }}</strong>
+
+        </div>
+
+        <div class="info-row">
+
+            <span>Last Login</span>
+
+            <strong>Today</strong>
+
+        </div>
+
+    </div>
+
+    <!-- ACTION BUTTONS -->
+
+    <div class="profile-actions">
+
+        <button class="profile-btn">
+
+            Edit Profile
+
+        </button>
+
+        <button class="profile-btn secondary">
+
+            Change Password
+
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

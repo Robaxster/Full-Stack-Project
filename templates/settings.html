@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Settings</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="settings-page">
+
+    <!-- HEADER -->
+
+    <div class="settings-header modern-header">
+
+    <div class="header-badge">
+        ⚙️ SYSTEM SETTINGS
+    </div>
+
+    <h1>Settings</h1>
+
+    <p>
+        Manage company information, security preferences and notification settings
+    </p>
+
+</div>
+    <!-- STATS -->
+
+    <div class="dashboard-stats">
+
+        <div class="stat-card">
+
+            <h3>3</h3>
+
+            <p>Active Modules</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>12</h3>
+
+            <p>Notifications</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>99.9%</h3>
+
+            <p>System Health</p>
+
+        </div>
+
+    </div>
+
+    <!-- COMPANY INFO -->
+
+    <div class="settings-card">
+
+        <h2>🏢 Company Information</h2>
+
+        <form action="/update_settings" method="POST">
+
+            <input
+                type="text"
+                name="company_name"
+                value="{{ settings.company_name }}"
+                placeholder="Company Name"
+                required>
+
+            <input
+                type="email"
+                name="admin_email"
+                value="{{ settings.admin_email }}"
+                placeholder="Admin Email"
+                required>
+
+            <input
+                type="text"
+                name="contact_number"
+                value="{{ settings.contact_number }}"
+                placeholder="Contact Number"
+                required>
+
+            <button type="submit">
+
+                Save Changes
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- SECURITY -->
+
+    <div class="settings-card">
+
+        <h2>🔐 Security Settings</h2>
+
+        <form action="/update_password" method="POST">
+
+            <input
+                type="password"
+                name="current_password"
+                placeholder="Current Password"
+                required>
+
+            <input
+                type="password"
+                name="new_password"
+                placeholder="New Password"
+                required>
+
+            <button type="submit">
+
+                Update Password
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- NOTIFICATIONS -->
+
+    <div class="settings-card">
+
+        <h2>🔔 Notifications</h2>
+
+        <form action="/update_notifications" method="POST">
+
+            <div class="notification-option">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="email_alerts"
+
+                        {% if settings.email_alerts %}
+                        checked
+                        {% endif %}>
+
+                    Email Alerts
+
+                </label>
+
+            </div>
+
+            <div class="notification-option">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="shipment_notifications"
+
+                        {% if settings.shipment_notifications %}
+                        checked
+                        {% endif %}>
+
+                    Shipment Notifications
+
+                </label>
+
+            </div>
+
+            <button type="submit">
+
+                Save Notifications
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- SYSTEM STATUS -->
+
+    <div class="settings-card">
+
+        <h2>🟢 System Status</h2>
+
+        <p>Database Connected</p>
+
+        <p>Flask Server Running</p>
+
+        <p>Notifications Active</p>
+
+        <p>User Management Active</p>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

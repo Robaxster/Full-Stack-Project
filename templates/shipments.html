@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Shipments</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static',
+    filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <h2>Smart Logistics</h2>
+
+        <ul>
+
+            <li><a href="/dashboard">📊 Dashboard</a></li>
+
+            <li><a href="/shipments">🚚 Shipments</a></li>
+            
+
+            <li><a href="/warehouse">📦 Warehouse</a></li>
+
+            <li><a href="/analytics">📈 Analytics</a></li>
+            <li><a href="/users">👥 Users</a></li>
+
+            
+
+            <li><a href="/">🏠 Home</a></li>
+
+        </ul>
+        
+<div class="sidebar-profile" onclick="toggleMenu()">
+
+    <div class="profile-avatar sidebar-avatar">
+        {{ session['user'][:2].upper() }}
+    </div>
+
+    <div class="profile-info">
+
+        <h4>{{ session['user'] }}</h4>
+
+        <span class="sidebar-role">
+            {{ session['role'] }}
+        </span>
+
+    </div>
+
+    <div id="profileMenu" class="profile-menu">
+
+        <a href="/profile">👤 Profile</a>
+        <a href="/settings">⚙️ Settings</a>
+        <a href="/upgrade">⭐ Upgrade</a>
+        <a href="/help">❓ Help</a>
+
+        <hr>
+
+        <a href="/logout" class="logout-link">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
+
+    </div>
+
+    <!-- Main Content -->
+
+    <div class="main-content">
+
+        <div class="dashboard-header">
+
+            <h1>Shipment Management</h1>
+
+            <p>
+                Monitor and manage all shipments.
+            </p>
+
+        </div>
+       <div class="shipment-form">
+    <form action="/add_shipment" method="POST">
+
+        <input type="text" name="tracking_id" placeholder="Tracking ID" required>
+
+        <input type="text" name="origin" placeholder="Origin" required>
+
+        <input type="text" name="destination" placeholder="Destination" required>
+
+        <select name="status">
+            <option>Pending</option>
+            <option>In Transit</option>
+            <option>Delivered</option>
+        </select>
+
+        <input type="text" name="current_location"
+               placeholder="Current Location">
+
+        <button type="submit">
+            Add Shipment
+        </button>
+
+    </form>
+</div>
+        <!-- Search -->
+
+        <div class="search-box">
+
+           <form action="/shipments" method="GET">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search Tracking ID">
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+        </div>
+
+        <!-- Shipment Table -->
+
+        <div class="shipment-table">
+
+            <h2>Recent Shipments</h2>
+
+           <table>
+
+    <tr>
+
+        <th>ID</th>
+
+        <th>Origin</th>
+
+        <th>Destination</th>
+
+        <th>Status</th>
+        <th>Action</th>
+
+    </tr>
+
+    {% for shipment in shipments %}
+
+    <tr>
+
+        <td>{{ shipment.tracking_id }}</td>
+
+        <td>{{ shipment.origin }}</td>
+
+        <td>{{ shipment.destination }}</td>
+
+        <td>
+
+            {% if shipment.status == "Delivered" %}
+
+                <span class="status delivered">
+                    {{ shipment.status }}
+                </span>
+
+            {% elif shipment.status == "In Transit" %}
+
+                <span class="status transit">
+                    {{ shipment.status }}
+                </span>
+
+            {% else %}
+
+                <span class="status pending">
+                    {{ shipment.status }}
+                </span>
+
+            {% endif %}
+
+        </td>
+        <td>
+
+            <a href="/edit_shipment/{{ shipment.id }}"
+   class="edit-btn">
+
+   Edit
+
+</a>
+
+    <a
+        href="/delete_shipment/{{ shipment.id }}"
+        class="delete-btn"
+        onclick="return confirm('Delete this shipment?')">
+
+        Delete
+
+    </a>
+
+</td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+function toggleMenu(){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    menu.style.display =
+    menu.style.display === "block"
+    ? "none"
+    : "block";
+}
+
+document.addEventListener("click", function(event){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    const profile =
+    document.querySelector(".sidebar-profile");
+
+    if(
+        profile &&
+        !profile.contains(event.target)
+    ){
+        menu.style.display = "none";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

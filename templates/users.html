@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Users</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static',
+    filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <div class="sidebar">
+
+        <h2>Smart Logistics</h2>
+
+        <ul>
+
+            <li><a href="/dashboard">📊 Dashboard</a></li>
+            <li><a href="/shipments">🚚 Shipments</a></li>
+            <li><a href="/warehouse">📦 Warehouse</a></li>
+            <li><a href="/analytics">📈 Analytics</a></li>
+            <li><a href="/users">👥 Users</a></li>
+            
+            <li><a href="/">🏠 Home</a></li>
+
+        </ul>
+        
+<div class="sidebar-profile" onclick="toggleMenu()">
+
+    <div class="profile-avatar sidebar-avatar">
+        {{ session['user'][:2].upper() }}
+    </div>
+
+    <div class="profile-info">
+
+        <h4>{{ session['user'] }}</h4>
+
+        <span class="sidebar-role">
+            {{ session['role'] }}
+        </span>
+
+    </div>
+
+    <div id="profileMenu" class="profile-menu">
+
+        <a href="/profile">👤 Profile</a>
+        <a href="/settings">⚙️ Settings</a>
+        <a href="/upgrade">⭐ Upgrade</a>
+        <a href="/help">❓ Help</a>
+
+        <hr>
+
+        <a href="/logout" class="logout-link">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
+    </div>
+
+    <div class="main-content">
+
+        <div class="dashboard-header">
+
+            <h1>User Management</h1>
+
+            <p>
+                Manage administrators and staff accounts.
+            </p>
+
+        </div>
+        <div class="search-box">
+
+    <form method="GET" action="/users">
+
+        <input
+        type="text"
+        name="search"
+        placeholder="Search User">
+
+        <button type="submit">
+
+            Search
+
+        </button>
+
+    </form>
+
+</div>
+
+        <div class="settings-card">
+
+            <h2>Add New User</h2>
+
+            <form action="/add_user" method="POST">
+
+        <input
+type="text"
+name="username"
+placeholder="Username"
+required>
+
+<input
+type="email"
+name="email"
+placeholder="Email"
+required>
+
+<input
+type="password"
+name="password"
+placeholder="Password"
+required>
+
+<select name="role" required>
+    <option value="">
+        Select Role
+    </option>
+
+    <option value="Administrator">
+        Administrator
+    </option>
+
+    <option value="Manager">
+        Manager
+    </option>
+
+    <option value="Warehouse Staff">
+        Warehouse Staff
+    </option>
+
+</select>
+
+                <button type="submit">
+
+                    Add User
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="analytics-grid">
+
+    <div class="analytics-kpi">
+
+        <h2>{{ users|length }}</h2>
+
+        <p>Total Users</p>
+
+    </div>
+
+    <div class="analytics-kpi">
+
+        <h2>{{ admin_count }}</h2>
+
+        <p>Administrators</p>
+
+    </div>
+
+    <div class="analytics-kpi">
+
+        <h2>{{ manager_count }}</h2>
+
+        <p>Managers</p>
+
+    </div>
+
+    <div class="analytics-kpi">
+
+        <h2>{{ warehouse_count }}</h2>
+
+        <p>Warehouse Staff</p>
+
+    </div>
+
+</div>
+
+            <h2>Registered Users</h2>
+            <div class="table-container">
+
+            <table class="shipment-table">
+
+                <thead>
+
+                    <tr>
+
+                      <th>ID</th>
+<th>Username</th>
+<th>Email</th>
+<th>Role</th>
+<th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for user in users %}
+
+                    <tr>
+
+                       <td>{{ user.id }}</td>
+<td>{{ user.username }}</td>
+<td>{{ user.email }}</td>
+<td>{{ user.role }}</td>
+
+<td>
+
+    <a href="/edit_user/{{ user.id }}"
+       class="edit-btn">
+
+       Edit
+
+    </a>
+
+    <a href="/delete_user/{{ user.id }}"
+       class="delete-btn"
+       onclick="return confirm('Delete User?')">
+
+       Delete
+
+    </a>
+
+</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+function toggleMenu(){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    menu.style.display =
+    menu.style.display === "block"
+    ? "none"
+    : "block";
+}
+
+document.addEventListener("click", function(event){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    const profile =
+    document.querySelector(".sidebar-profile");
+
+    if(
+        profile &&
+        !profile.contains(event.target)
+    ){
+        menu.style.display = "none";
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

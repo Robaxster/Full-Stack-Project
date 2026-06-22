@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit Warehouse</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h2>Edit Warehouse</h2>
+
+    <form
+        action="/update_warehouse/{{ warehouse.id }}"
+        method="POST">
+
+        <input
+            type="text"
+            name="warehouse_name"
+            value="{{ warehouse.warehouse_name }}"
+            required>
+
+        <input
+            type="text"
+            name="location"
+            value="{{ warehouse.location }}"
+            required>
+
+        <input
+            type="number"
+            name="capacity_used"
+            value="{{ warehouse.capacity_used }}"
+            required>
+
+        <button type="submit">
+
+            Update Warehouse
+
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/warehouse" class="edit-btn">
+
+        ← Back to Warehouse
+
+    </a>
+
+</div>
+
+</body>
+</html>

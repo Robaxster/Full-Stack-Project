@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Upgrade Plan</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="upgrade-page">
+
+    <!-- HEADER -->
+
+    <div class="pricing-header">
+
+        <h1>Upgrade Your Plan</h1>
+
+        <p>
+            Choose a plan that fits your logistics business
+        </p>
+
+    </div>
+
+    <!-- TOGGLE -->
+
+    <div class="plan-switch">
+
+        <button id="smallBtn"
+                class="switch-btn active"
+                onclick="showSmallBusiness()">
+
+            Small Business
+
+        </button>
+
+        <button id="enterpriseBtn"
+                class="switch-btn"
+                onclick="showEnterprise()">
+
+            Enterprise
+
+        </button>
+
+    </div>
+
+    <!-- CURRENT PLAN -->
+
+    <div class="current-plan">
+
+        <h3>🚀 Current Plan</h3>
+
+        <p>
+
+            You are currently using
+
+            <strong>Starter Plan</strong>
+
+        </p>
+
+    </div>
+
+<!-- PRICING CARDS -->
+
+<div class="pricing-grid" id="smallBusinessPlans">
+
+    <!-- STARTER -->
+
+    <div class="pricing-card">
+
+        <h2>Starter</h2>
+
+        <div class="price">
+            ₹0
+            <span>/month</span>
+        </div>
+
+        <p class="plan-desc">
+            Perfect for startups and small logistics teams
+        </p>
+
+        <button class="current-plan-btn">
+            Current Plan
+        </button>
+
+        <ul>
+            <li>✓ Shipment Tracking</li>
+            <li>✓ Dashboard Access</li>
+            <li>✓ Warehouse Overview</li>
+            <li>✓ User Management</li>
+            <li>✓ Basic Reports</li>
+        </ul>
+
+    </div>
+
+    <!-- BUSINESS -->
+
+    <div class="pricing-card featured-card">
+
+        <div class="popular-badge">
+            MOST POPULAR
+        </div>
+
+        <h2>Business</h2>
+
+        <div class="price">
+            ₹999
+            <span>/month</span>
+        </div>
+
+        <p class="plan-desc">
+            Ideal for growing logistics companies
+        </p>
+
+        <button class="upgrade-btn">
+            Upgrade Now
+        </button>
+
+        <ul>
+            <li>✓ Advanced Analytics</li>
+            <li>✓ Export Reports</li>
+            <li>✓ Notifications</li>
+            <li>✓ User Activity Logs</li>
+            <li>✓ Fleet Monitoring</li>
+            <li>✓ Priority Support</li>
+        </ul>
+
+    </div>
+
+    <!-- PROFESSIONAL -->
+
+    <div class="pricing-card">
+
+        <h2>Professional</h2>
+
+        <div class="price">
+            ₹2999
+            <span>/month</span>
+        </div>
+
+        <p class="plan-desc">
+            Built for large-scale logistics operations
+        </p>
+
+        <button class="upgrade-btn">
+            Contact Sales
+        </button>
+
+        <ul>
+            <li>✓ Unlimited Warehouses</li>
+            <li>✓ API Access</li>
+            <li>✓ Dedicated Support</li>
+            <li>✓ Enterprise Security</li>
+            <li>✓ Custom Integrations</li>
+            <li>✓ AI-Powered Forecasting</li>
+            <li>✓ Multi-Region Management</li>
+        </ul>
+
+    </div>
+
+</div>
+
+<!-- ENTERPRISE TAB -->
+
+<div class="pricing-grid"
+     id="enterprisePlans"
+     style="display:none;">
+
+    <!-- BUSINESS -->
+
+    <div class="pricing-card">
+
+        <h2>Business</h2>
+
+        <div class="price">
+            ₹4999
+            <span>/month</span>
+        </div>
+
+        <p class="plan-desc">
+            For medium-scale logistics operations
+        </p>
+
+        <button class="upgrade-btn">
+            Contact Sales
+        </button>
+
+        <ul>
+            <li>✓ Unlimited Warehouses</li>
+            <li>✓ Dedicated Support</li>
+            <li>✓ API Access</li>
+            <li>✓ Security Monitoring</li>
+        </ul>
+
+    </div>
+
+    <!-- ENTERPRISE -->
+
+    <div class="pricing-card featured-card">
+
+        <div class="popular-badge">
+            BEST VALUE
+        </div>
+
+        <h2>Enterprise</h2>
+
+        <div class="price">
+            ₹9999
+            <span>/month</span>
+        </div>
+
+        <p class="plan-desc">
+            Built for large logistics companies
+        </p>
+
+        <button class="upgrade-btn">
+            Contact Sales
+        </button>
+
+        <ul>
+            <li>✓ Everything in Business</li>
+            <li>✓ ERP Integration</li>
+            <li>✓ Advanced Analytics</li>
+            <li>✓ AI Forecasting</li>
+            <li>✓ 24/7 Support</li>
+        </ul>
+
+    </div>
+
+    <!-- GLOBAL -->
+
+    <div class="pricing-card">
+
+        <h2>Global</h2>
+
+        <div class="price">
+            Custom
+        </div>
+
+        <p class="plan-desc">
+            Multi-region enterprise deployment
+        </p>
+
+        <button class="upgrade-btn">
+            Contact Sales
+        </button>
+
+        <ul>
+            <li>✓ Custom Integrations</li>
+            <li>✓ Dedicated Team</li>
+            <li>✓ Global Operations</li>
+            <li>✓ White Label Solution</li>
+        </ul>
+
+    </div>
+
+</div>
+    </div>
+
+
+
+
+<script>
+
+function showSmallBusiness(){
+
+    document
+    .getElementById("smallBusinessPlans")
+    .style.display = "grid";
+
+    document
+    .getElementById("enterprisePlans")
+    .style.display = "none";
+
+    document
+    .getElementById("smallBtn")
+    .classList.add("active");
+
+    document
+    .getElementById("enterpriseBtn")
+    .classList.remove("active");
+}
+
+function showEnterprise(){
+
+    document
+    .getElementById("smallBusinessPlans")
+    .style.display = "none";
+
+    document
+    .getElementById("enterprisePlans")
+    .style.display = "grid";
+
+    document
+    .getElementById("enterpriseBtn")
+    .classList.add("active");
+
+    document
+    .getElementById("smallBtn")
+    .classList.remove("active");
+}
+
+</script>
+
+</body>
+
+</html>

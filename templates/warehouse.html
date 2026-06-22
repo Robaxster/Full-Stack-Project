@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Warehouse Management</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static',
+    filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <h2>Smart Logistics</h2>
+
+        <ul>
+
+            <li><a href="/dashboard">📊 Dashboard</a></li>
+
+            <li><a href="/shipments">🚚 Shipments</a></li>
+
+            <li><a href="/warehouse">📦 Warehouse</a></li>
+
+            <li><a href="/analytics">📈 Analytics</a></li>
+            <li><a href="/users">👥 Users</a></li>
+
+          
+
+            <li><a href="/">🏠 Home</a></li>
+
+        </ul>
+        
+<div class="sidebar-profile" onclick="toggleMenu()">
+
+    <div class="profile-avatar sidebar-avatar">
+        {{ session['user'][:2].upper() }}
+    </div>
+
+    <div class="profile-info">
+
+        <h4>{{ session['user'] }}</h4>
+
+        <span class="sidebar-role">
+            {{ session['role'] }}
+        </span>
+
+    </div>
+
+    <div id="profileMenu" class="profile-menu">
+
+        <a href="/profile">👤 Profile</a>
+        <a href="/settings">⚙️ Settings</a>
+        <a href="/upgrade">⭐ Upgrade</a>
+        <a href="/help">❓ Help</a>
+
+        <hr>
+
+        <a href="/logout" class="logout-link">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
+
+    </div>
+
+    <!-- Main Content -->
+
+    <div class="main-content">
+
+        <div class="dashboard-header">
+
+            <h1>Warehouse Management</h1>
+
+            <p>
+                Monitor storage capacity and inventory levels.
+            </p>
+
+        </div>
+        <div class="search-box">
+
+    <form method="GET" action="/warehouse">
+
+        <input
+        type="text"
+        name="search"
+        placeholder="Search Warehouse">
+
+        <button type="submit">
+
+            Search
+
+        </button>
+
+    </form>
+
+</div>
+        <div class="add-shipment-card">
+
+    <h2>Add New Warehouse</h2>
+
+    <form action="/add_warehouse" method="POST">
+
+        <input
+            type="text"
+            name="warehouse_name"
+            placeholder="Warehouse Name"
+            required>
+
+        <input
+            type="text"
+            name="location"
+            placeholder="Location"
+            required>
+
+        <input
+            type="number"
+            name="capacity_used"
+            placeholder="Capacity Used (%)"
+            required>
+
+        <button type="submit">
+
+            Add Warehouse
+
+        </button>
+
+    </form>
+
+</div>
+
+        <div class="warehouse-grid">
+
+            
+
+{% for warehouse in warehouses %}
+
+    <div class="warehouse-card">
+
+        <h2>{{ warehouse.warehouse_name }}</h2>
+
+        <p>
+    📍 {{ warehouse.location }}
+</p>
+
+<p>
+    📦 Capacity Used:
+    {{ warehouse.capacity_used }}%
+</p>
+
+<p>
+    ✅ Available Space:
+    {{ 100 - warehouse.capacity_used }}%
+</p>
+       <div class="warehouse-actions">
+
+    <a href="/edit_warehouse/{{ warehouse.id }}"
+       class="edit-btn">
+
+       Edit
+
+    </a>
+
+    <a href="/delete_warehouse/{{ warehouse.id }}"
+       class="delete-btn"
+       onclick="return confirm('Delete this warehouse?')">
+
+       Delete
+
+    </a>
+
+</div>
+
+    </div>
+
+{% endfor %}
+
+</div>
+        </div>
+
+        <div class="inventory-card">
+
+            <h2>Inventory Overview</h2>
+
+            <p>Total Inventory Units: 12,500</p>
+
+            <p>Incoming Inventory: 2,300</p>
+
+            <p>Outgoing Inventory: 1,850</p>
+
+            <p>Stock Accuracy: 98%</p>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+function toggleMenu(){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    menu.style.display =
+    menu.style.display === "block"
+    ? "none"
+    : "block";
+}
+
+document.addEventListener("click", function(event){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    const profile =
+    document.querySelector(".sidebar-profile");
+
+    if(
+        profile &&
+        !profile.contains(event.target)
+    ){
+        menu.style.display = "none";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <h2>Smart Logistics</h2>
+
+       <ul>
+
+<li>
+    <a href="/dashboard">
+        📊 Dashboard
+    </a>
+</li>
+
+<li>
+    <a href="/shipments">
+        🚚 Shipments
+    </a>
+</li>
+
+<li>
+    <a href="/warehouse">
+        📦 Warehouse
+    </a>
+</li>
+
+<li>
+    <a href="/analytics">
+        📈 Analytics
+    </a>
+</li>
+<li><a href="/users">👥 Users</a></li>
+
+
+
+<li>
+    <a href="/">
+        🏠 Home
+    </a>
+</li>
+
+
+</ul>
+<div class="sidebar-profile" onclick="toggleMenu()">
+
+    <div class="profile-avatar sidebar-avatar">
+        {{ session['user'][:2].upper() }}
+    </div>
+
+    <div class="profile-info">
+
+        <h4>{{ session['user'] }}</h4>
+
+        <span class="sidebar-role">
+            {{ session['role'] }}
+        </span>
+
+    </div>
+
+    <div id="profileMenu" class="profile-menu">
+
+        <a href="/profile">👤 Profile</a>
+        <a href="/settings">⚙️ Settings</a>
+        <a href="/upgrade">⭐ Upgrade</a>
+        <a href="/help">❓ Help</a>
+
+        <hr>
+
+        <a href="/logout" class="logout-link">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+    </div>
+
+    <!-- Main Content -->
+
+   <div class="main-content">
+
+    <div class="dashboard-header">
+
+        <h1>Dashboard</h1>
+
+        <p>
+            Welcome to Smart Logistics Management System
+        </p>
+
+    </div>
+
+           <h2>Dashboard Overview</h2>
+
+<div class="dashboard-stats">
+
+    <div class="stat-card">
+        <h3>{{ total }}</h3>
+        <p>Total Shipments</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ delivered }}</h3>
+        <p>Delivered</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ transit }}</h3>
+        <p>In Transit</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>{{ pending }}</h3>
+        <p>Pending</p>
+    </div>
+
+</div>
+<div class="quick-actions">
+
+    <a href="/shipments" class="action-card">
+        <div>🚚</div>
+        <h3>Shipments</h3>
+        <p>Manage Deliveries</p>
+    </a>
+
+    <a href="/warehouse" class="action-card">
+        <div>📦</div>
+        <h3>Warehouse</h3>
+        <p>Manage Storage</p>
+    </a>
+
+    <a href="/users" class="action-card">
+        <div>👤</div>
+        <h3>Users</h3>
+        <p>Manage Staff</p>
+    </a>
+
+    <a href="/analytics" class="action-card">
+        <div>📈</div>
+        <h3>Analytics</h3>
+        <p>View Reports</p>
+    </a>
+
+</div>
+        <!-- Recent Shipments -->
+
+     
+     <div class="shipment-table">
+
+    <h2>Recent Shipments</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Tracking ID</th>
+
+                <th>Destination</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for shipment in recent_shipments %}
+
+            <tr>
+
+                <td>{{ shipment.tracking_id }}</td>
+
+                <td>{{ shipment.destination }}</td>
+
+                <td>
+
+                    {% if shipment.status == "Delivered" %}
+
+                        <span class="status delivered">
+                            Delivered
+                        </span>
+
+                    {% elif shipment.status == "In Transit" %}
+
+                        <span class="status transit">
+                            In Transit
+                        </span>
+
+                    {% else %}
+
+                        <span class="status pending">
+                            {{ shipment.status }}
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+        
+        <div class="bottom-grid">
+
+    <div class="analytics-card">
+
+        <h2>Monthly Shipments</h2>
+
+        <canvas id="shipmentChart"></canvas>
+
+    </div>
+
+  
+
+<div class="fleet-card">
+
+    <h2>🔔 Live Notifications</h2>
+
+    {% for notification in notifications %}
+
+    <div class="alert-item success">
+        {{ notification.message }}
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<div class="fleet-card">
+
+    <h2>🏭Overview For Top Warehouses</h2>
+
+    {% for warehouse in top_warehouses %}
+
+<div class="warehouse-summary">
+
+    <span>{{ warehouse.warehouse_name }}</span>
+
+    <span>{{ warehouse.capacity_used }}%</span>
+
+</div>
+
+<div class="capacity-bar">
+
+    <div class="capacity-fill"
+
+        {% if warehouse.capacity_used > 85 %}
+        style="width: {{ warehouse.capacity_used }}%; background:#ef4444;"
+        {% elif warehouse.capacity_used > 70 %}
+        style="width: {{ warehouse.capacity_used }}%; background:#f59e0b;"
+        {% else %}
+        style="width: {{ warehouse.capacity_used }}%; background:#22c55e;"
+        {% endif %}>
+
+    </div>
+
+</div>
+
+{% endfor %}
+</div>
+</div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx =
+document.getElementById('shipmentChart');
+
+new Chart(ctx, {
+
+    type:'bar',
+
+    data:{
+
+        labels:[
+            'Delivered',
+            'In Transit',
+            'Pending'
+        ],
+
+        datasets:[{
+
+            label:'Shipments',
+
+            data:[
+                "{{ delivered }}",
+                "{{ transit }}",
+                "{{ pending }}",
+            ]
+
+        }]
+
+    }
+
+});
+</script>
+<script>
+
+function toggleMenu(){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    if(menu.style.display === "block"){
+
+        menu.style.display = "none";
+
+    }else{
+
+        menu.style.display = "block";
+
+    }
+}
+
+document.addEventListener("click", function(event){
+
+    const menu =
+    document.getElementById("profileMenu");
+
+    const profile =
+    document.querySelector(".sidebar-profile");
+
+    if(
+        !profile.contains(event.target) &&
+        !menu.contains(event.target)
+    ){
+        menu.style.display = "none";
+    }
+});
+
+</script>
+</body>
+</html>

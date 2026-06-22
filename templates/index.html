@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Logistics</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+  <nav>
+
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}">
+        <span>Smart Logistics</span>
+    </div>
+
+    <ul>
+
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#demo">Request Demo</a></li>
+        <li><a href="#contact">Contact</a></li>
+
+        <li>
+            <a href="/login" class="login-btn">
+                Login
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+    <!-- Hero -->
+
+    <section id="home" class="hero">
+
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+
+        <div class="hero-left">
+
+            <h1>
+                Smart Logistics Solutions Across India
+            </h1>
+
+            <p>
+                Real-time shipment tracking,
+                warehouse management,
+                route optimization,
+                fleet monitoring and logistics analytics.
+            </p>
+
+            <div class="hero-buttons">
+
+    <a href="#tracking" class="primary-btn">
+    Track Shipment
+</a>
+
+    <a href="#services" class="secondary-btn">
+    Learn More
+</a>
+
+</div>
+
+        </div>
+
+        <div class="hero-right">
+
+            <img src="{{ url_for('static',
+            filename='images/truck.jpg') }}"
+            alt="Truck">
+
+        </div>
+
+    </div>
+
+</section>
+<section class="clients">
+
+    <h2>Trusted Logistics Technologies</h2>
+
+    <div class="client-logos">
+
+        <div>DHL</div>
+
+        <div>FedEx</div>
+
+        <div>Blue Dart</div>
+
+        <div>Delhivery</div>
+
+        <div>Maersk</div>
+
+    </div>
+
+</section>
+
+    <!-- Stats -->
+
+    <section class="stats">
+
+        <div class="card">
+
+            <h2>5000+</h2>
+
+            <p>Shipments Delivered</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>120+</h2>
+
+            <p>Cities Covered</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>500+</h2>
+
+            <p>Fleet Vehicles</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>98%</h2>
+
+            <p>On-Time Delivery</p>
+
+        </div>
+
+    </section>
+
+    <!-- Services -->
+
+    <section id="services" class="services">
+
+        <h2>Our Services</h2>
+
+        <div class="service-grid">
+
+         <div class="service-card"
+onclick="toggleService(this)">
+
+    <img src="{{ url_for('static',
+    filename='images/delivery.jpg') }}">
+
+    <h3>Fast Delivery</h3>
+
+    <p>
+        Same day and next day delivery
+        services across major cities.
+    </p>
+
+  <div class="service-details">
+
+    <ul>
+        <li>Same-Day Delivery Services</li>
+        <li>Next-Day Delivery Coverage</li>
+        <li>Pan India Logistics Network</li>
+        <li>Live GPS Tracking</li>
+        <li>Automated Route Planning</li>
+        <li>Customer Notifications</li>
+        <li>Proof Of Delivery System</li>
+        <li>Express Delivery Support</li>
+        <li>Dedicated Delivery Teams</li>
+        <li>24x7 Monitoring</li>
+    </ul>
+
+</div>
+</div>
+            <div class="service-card"
+onclick="toggleService(this)">
+
+    <img src="{{ url_for('static', filename='images/warehouse.jpg') }}">
+
+    <h3>Warehouse Management</h3>
+
+    <p>
+        Secure inventory storage and management
+        with real-time monitoring.
+    </p>
+
+    <div class="service-details">
+
+        <h4>Warehouse Management Solutions</h4>
+
+        <p>
+            Our warehouse management system helps businesses
+            optimize inventory storage, stock tracking,
+            order processing, goods receiving,
+            dispatch operations, barcode integration,
+            inventory forecasting, demand planning,
+            warehouse analytics, automated stock alerts,
+            shelf management, asset monitoring,
+            order fulfillment, space utilization,
+            product categorization, warehouse security,
+            temperature-controlled storage,
+            multi-location inventory management,
+            supplier coordination, and real-time visibility
+            across all logistics operations.
+        </p>
+
+    </div>
+
+</div>
+
+           <div class="service-card"
+onclick="toggleService(this)">
+
+    <img src="{{ url_for('static', filename='images/truck.jpg') }}">
+
+    <h3>Fleet Tracking</h3>
+
+    <p>
+        GPS-based vehicle monitoring and
+        route optimization.
+    </p>
+
+    <div class="service-details">
+
+        <h4>Fleet Tracking & Monitoring</h4>
+
+        <p>
+            Our fleet tracking solution provides
+            real-time GPS monitoring, route optimization,
+            fuel consumption analysis, driver performance tracking,
+            vehicle maintenance alerts, geofencing,
+            live vehicle locations, trip history,
+            delivery monitoring, route deviation detection,
+            speed tracking, idle time analysis,
+            emergency alerts, fleet utilization reports,
+            predictive maintenance scheduling,
+            transportation analytics, logistics planning,
+            cargo monitoring, operational efficiency reporting,
+            and complete fleet visibility from a centralized dashboard.
+        </p>
+
+    </div>
+
+</div>
+
+    </section>
+    <div id="serviceInfo"></div>
+    <section class="about">
+
+    <h2>About Smart Logistics</h2>
+
+    <p>
+        Smart Logistics provides end-to-end logistics,
+        warehousing, fleet management and shipment
+        tracking solutions across India.
+    </p>
+
+</section>
+
+    <!-- Why Choose Us -->
+
+    <section class="why-us">
+
+        <h2>Why Choose Us</h2>
+
+        <div class="why-grid">
+
+            <div class="why-card"
+onclick="toggleWhy(this)">
+
+    🚚 Real-Time Tracking
+
+    <div class="why-details">
+
+        <p>
+            Monitor shipments in real time with
+            live GPS tracking, route visibility,
+            instant delivery updates, ETA prediction,
+            status notifications, proof of delivery,
+            shipment history, customer alerts,
+            delay management and centralized tracking.
+        </p>
+
+    </div>
+
+</div>
+
+           <div class="why-card"
+onclick="toggleWhy(this)">
+
+    📦 Warehouse Management
+
+    <div class="why-details">
+
+        <p>
+            Efficient inventory control,
+            stock optimization,
+            warehouse automation,
+            storage planning,
+            barcode integration,
+            inventory forecasting,
+            goods receiving,
+            dispatch monitoring and real-time reporting.
+        </p>
+
+    </div>
+
+</div>
+
+           <div class="why-card"
+onclick="toggleWhy(this)">
+
+    📊 Analytics Dashboard
+
+    <div class="why-details">
+
+        <p>
+            Powerful logistics analytics,
+            shipment performance reports,
+            fleet efficiency tracking,
+            warehouse utilization metrics,
+            delivery trends,
+            KPI monitoring and executive dashboards.
+        </p>
+
+    </div>
+
+</div>
+
+           <div class="why-card"
+onclick="toggleWhy(this)">
+
+    🔒 Secure Operations
+
+    <div class="why-details">
+
+        <p>
+            Role-based access control,
+            encrypted logistics data,
+            secure user authentication,
+            activity monitoring,
+            audit logs,
+            backup systems,
+            compliance standards and operational security.
+        </p>
+
+    </div>
+
+</div>
+
+        </div>
+
+    </section>
+  <div id="whyInfo"></div>
+
+<section id="tracking" class="tracking">
+
+    <div class="tracking-box">
+
+        <h2>Track Shipment</h2>
+
+        <p>
+            Enter your shipment ID and get real-time updates.
+        </p>
+
+        <form action="/track" method="POST">
+
+            <div class="tracking-form">
+
+                <input
+                    type="text"
+                    name="tracking_id"
+                    placeholder="Enter Tracking ID"
+                    required>
+
+                <button type="submit">
+                    Track Now
+                </button>
+
+            </div>
+
+        </form>
+
+        {% if shipment %}
+
+        <div id="trackingResult" class="success-card">
+
+            <h3>🚚 Shipment Found</h3>
+
+            <div class="tracking-grid">
+
+                <div>
+                    <strong>Tracking ID</strong>
+                    <p>{{ shipment.tracking_id }}</p>
+                </div>
+
+                <div>
+                    <strong>Status</strong>
+                    <p>{{ shipment.status }}</p>
+                </div>
+
+                <div>
+                    <strong>Origin</strong>
+                    <p>{{ shipment.origin }}</p>
+                </div>
+
+                <div>
+                    <strong>Destination</strong>
+                    <p>{{ shipment.destination }}</p>
+                </div>
+
+                <div>
+                    <strong>Current Location</strong>
+                    <p>{{ shipment.current_location }}</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        {% if error %}
+
+        <div class="error-card">
+
+            <h3>❌ {{ error }}</h3>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+<section id="demo" class="cta">
+
+    <h2>Ready To Digitize Your Logistics Operations?</h2>
+
+    <p>
+        Automate shipment tracking, warehouse
+        management and fleet monitoring.
+    </p>
+
+   <button
+class="primary-btn"
+onclick="requestDemo()">
+
+    Request Demo
+
+</button>
+
+</section>
+
+<section id="contact" class="contact">
+
+    <h2>Contact Us</h2>
+    {% with messages = get_flashed_messages() %}
+{% if messages %}
+
+<div class="success-message">
+    {{ messages[0] }}
+</div>
+
+{% endif %}
+{% endwith %}
+
+  <form action="/contact" method="POST">
+
+    <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        required>
+
+    <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        required>
+
+    <textarea
+        name="message"
+        placeholder="Message"
+        required></textarea>
+
+    <button type="submit">
+        Send Message
+    </button>
+
+</form>
+</section>
+
+    <!-- Footer -->
+
+    <footer>
+
+        <h3>Smart Logistics</h3>
+
+        <p>
+            Transforming logistics through technology.
+        </p>
+
+    </footer>
+    {% if shipment or error %}
+
+<script>
+
+window.onload = function() {
+
+    document.getElementById("tracking")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+};
+
+</script>
+
+{% endif %}
+    <script src="{{ url_for('static',
+filename='js/app.js') }}"></script>
+<script>
+
+function toggleService(card){
+
+    document.querySelectorAll(".service-card").forEach(item => {
+
+        if(item !== card){
+            item.classList.remove("active");
+        }
+
+    });
+
+    card.classList.toggle("active");
+}
+
+</script>
+
+</body>
+
+</html>

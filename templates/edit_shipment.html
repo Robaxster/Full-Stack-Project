@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+
+<title>Edit Shipment</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static',
+      filename='css/style.css') }}">
+
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+
+<div class="main-content">
+
+    <div class="form-container">
+
+        <h2>Edit Shipment</h2>
+
+        <form
+            action="/update_shipment/{{ shipment.id }}"
+            method="POST">
+
+            <input
+                type="text"
+                name="tracking_id"
+                value="{{ shipment.tracking_id }}"
+                required>
+
+            <input
+                type="text"
+                name="origin"
+                value="{{ shipment.origin }}"
+                required>
+
+            <input
+                type="text"
+                name="destination"
+                value="{{ shipment.destination }}"
+                required>
+
+            <select name="status">
+
+    <option value="Pending"
+    {% if shipment.status == "Pending" %}selected{% endif %}>
+        Pending
+    </option>
+
+    <option value="In Transit"
+    {% if shipment.status == "In Transit" %}selected{% endif %}>
+        In Transit
+    </option>
+
+    <option value="Delivered"
+    {% if shipment.status == "Delivered" %}selected{% endif %}>
+        Delivered
+    </option>
+
+</select>
+
+            <input
+                type="text"
+                name="current_location"
+                value="{{ shipment.current_location }}"
+                required>
+
+            <button type="submit">
+
+                Update Shipment
+
+            </button>
+
+        </form>
+
+        <br>
+
+        <a href="/shipments" class="edit-btn">
+
+            ← Back to Shipments
+
+        </a>
+
+    </div>
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>

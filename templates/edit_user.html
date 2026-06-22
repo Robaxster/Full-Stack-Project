@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit User</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static',
+    filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <div class="sidebar">
+
+        <h2>Smart Logistics</h2>
+
+    </div>
+
+    <div class="main-content">
+
+        <div class="dashboard-header">
+
+            <h1>Edit User</h1>
+
+        </div>
+
+        <div class="settings-card">
+
+            <form
+            action="/update_user/{{ user.id }}"
+            method="POST">
+
+                <input
+                type="text"
+                name="username"
+                value="{{ user.username }}"
+                required>
+
+                <input
+                type="email"
+                name="email"
+                value="{{ user.email }}"
+                required>
+
+                <select
+                name="role"
+                required>
+
+                    <option
+                    value="Administrator"
+                    {% if user.role ==
+                    "Administrator" %}
+                    selected
+                    {% endif %}>
+
+                        Administrator
+
+                    </option>
+
+                    <option
+                    value="Manager"
+                    {% if user.role ==
+                    "Manager" %}
+                    selected
+                    {% endif %}>
+
+                        Manager
+
+                    </option>
+
+                    <option
+                    value="Warehouse Staff"
+                    {% if user.role ==
+                    "Warehouse Staff" %}
+                    selected
+                    {% endif %}>
+
+                        Warehouse Staff
+
+                    </option>
+
+                </select>
+
+                <button type="submit">
+
+                    Update User
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
