@@ -1,19 +1,21 @@
 from flask import Flask, render_template, request, redirect, session, flash
 import mysql.connector
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
 # Secret Key
 app.secret_key = "smartlogistics"
+import os
+import mysql.connector
 
-# MySQL Connection
 db = mysql.connector.connect(
-    host="localhost",
+    host="reseau.proxy.rlwy.net",
     user="root",
-    password="root",  # Change if your MySQL password is different
-    database="smartlogistics"
+    password="AngmmmSjXojoJBFKkoByNZURFGKCQGhy",
+    database="railway",
+    port=38885
 )
-
 cursor = db.cursor(dictionary=True)
 
 
@@ -65,37 +67,33 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        query = """
-        SELECT * FROM users
-        WHERE username=%s
-        AND password=%s
-        """
-
         cursor.execute(
-            query,
-            (username, password)
+            """
+            SELECT *
+            FROM users
+            WHERE username=%s
+            """,
+            (username,)
         )
 
         user = cursor.fetchone()
 
-        if user:
+        if user and check_password_hash(
+            user["password"],
+            password
+        ):
 
-            # Store user info in session
             session["user"] = user["username"]
             session["role"] = user["role"]
 
             return redirect("/dashboard")
 
-        else:
+        return render_template(
+            "login.html",
+            error="Invalid Username or Password"
+        )
 
-            return render_template(
-                "login.html",
-                error="Invalid Username or Password"
-            )
-
-    return render_template(
-        "login.html"
-    )
+    return render_template("login.html")
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
@@ -104,7 +102,10 @@ def register():
         username = request.form["username"]
         email = request.form["email"]
         role = request.form["role"]
-        password = request.form["password"]
+
+        password = generate_password_hash(
+            request.form["password"]
+        )
 
         cursor.execute(
             """
@@ -748,28 +749,33 @@ def update_password():
 
         return redirect("/login")
 
-    current_password = \
-        request.form["current_password"]
+    current_password = request.form[
+        "current_password"
+    ]
 
-    new_password = \
-        request.form["new_password"]
+    new_password = request.form[
+        "new_password"
+    ]
 
     cursor.execute(
         """
         SELECT *
         FROM users
         WHERE username=%s
-        AND password=%s
         """,
-        (
-            session["user"],
-            current_password
-        )
+        (session["user"],)
     )
 
     user = cursor.fetchone()
 
-    if user:
+    if user and check_password_hash(
+        user["password"],
+        current_password
+    ):
+
+        hashed_password = generate_password_hash(
+            new_password
+        )
 
         cursor.execute(
             """
@@ -778,7 +784,7 @@ def update_password():
             WHERE username=%s
             """,
             (
-                new_password,
+                hashed_password,
                 session["user"]
             )
         )
@@ -852,7 +858,11 @@ def add_user():
 
     username = request.form["username"]
     email = request.form["email"]
-    password = request.form["password"]
+
+    password = generate_password_hash(
+        request.form["password"]
+    )
+
     role = request.form["role"]
 
     cursor.execute(
@@ -874,15 +884,16 @@ def add_user():
             role
         )
     )
+
     cursor.execute(
-    """
-    INSERT INTO notifications(message)
-    VALUES(%s)
-    """,
-    (
-        f"New user {username} created",
+        """
+        INSERT INTO notifications(message)
+        VALUES(%s)
+        """,
+        (
+            f"New user {username} created",
+        )
     )
-)
 
     db.commit()
 
