@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
 # Secret Key
-app.secret_key = "smartlogistics"
+app.secret_key = os.getenv("SECRET_KEY", "smartlogistics")
 import os
 import mysql.connector
 
