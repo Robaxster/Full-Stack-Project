@@ -1,24 +1,22 @@
 from flask import Flask, render_template, request, redirect, session, flash
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 app = Flask(__name__)
 
 # Secret Key
 app.secret_key = os.getenv("SECRET_KEY", "smartlogistics")
-import os
-import mysql.connector
 
 db = mysql.connector.connect(
-    host=os.getenv("MYSQLHOST", "reseau.proxy.rlwy.net"),
-    user=os.getenv("MYSQLUSER", "root"),
-    password=os.getenv("MYSQLPASSWORD", "AngmmmSjXojoJBFKkoByNZURFGKCQGhy"),
-    database=os.getenv("MYSQLDATABASE", "railway"),
-    port=int(os.getenv("MYSQLPORT", "38885"))
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=int(os.getenv("MYSQLPORT"))
 )
 
 cursor = db.cursor(dictionary=True)
-
 
 # HOME PAGE
 @app.route("/")
